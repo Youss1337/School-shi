@@ -1,0 +1,16 @@
+# Coursework environment.
+# Install with:  pip install -r requirements.txt
+
+numpy
+pandas
+scikit-learn
+matplotlib
+
+# Needed for VS Code (and Jupyter) to run .ipynb notebooks
+ipykernel
+
+# Converts between .py cell scripts and .ipynb notebooks
+jupytext
+
+# Optional - only if you also want to use Spyder
+# spyder

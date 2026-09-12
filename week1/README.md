@@ -1,5 +1,8 @@
 # Week 1 — Linear Models & Overfitting (Spyder setup)
 
+> **Using VS Code instead?** See [`../VSCODE_SETUP.md`](../VSCODE_SETUP.md).
+> This file is the Spyder-specific guide.
+
 ## Short answer: yes, but with one wrinkle
 
 You can absolutely do this homework in Spyder. The wrinkle is that **Spyder does
@@ -14,6 +17,8 @@ So the two files in this folder are the notebook, converted:
 |---|---|
 | `lecture_week1.py` | The whole lecture notebook as a Spyder cell script. Run it top to bottom to follow the class. |
 | `homework_week1.py` | A scaffold for the homework. Plumbing done, each step marked `TODO`, answer blocks to fill in. |
+| `homework_week1.ipynb` | The same scaffold as a notebook, for VS Code / Jupyter / Colab. |
+| `check_setup.py` | Run once to confirm your environment works. |
 
 Both are verified to run end to end.
 
@@ -34,7 +39,7 @@ pip install spyder numpy pandas scikit-learn matplotlib
 spyder
 ```
 
-(Or `pip install -r requirements.txt` from this folder.)
+(Or `pip install -r requirements.txt` from the repo root.)
 
 ### Check it worked
 
