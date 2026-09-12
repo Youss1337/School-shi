@@ -82,53 +82,50 @@ Settings → Apps → Advanced app settings → **App execution aliases** → tu
 
 ---
 
-## 4. Create a project environment
+## 4. Which environment to use
 
-A project environment is a private Python install for this course. It's not
-bureaucracy — it's what stops one project's package versions from breaking
-another's, and it means a bad `pip install` can never take down anything but
-this one folder.
+**If your prompt says `(base)` — you already have everything you need.**
+Anaconda ships numpy, pandas, scikit-learn, matplotlib and ipykernel. Install
+nothing, and go straight to step 5.
 
-Follow **4A** if you have Anaconda (the `(base)` prompt), **4B** if you don't.
+That is the documented path for this repo. It is the fastest way to start, and
+for a single course it is perfectly normal.
 
-### 4A — You have Anaconda
+<details>
+<summary>Optional: a dedicated environment instead (and why you might want one)</summary>
 
-In the terminal:
+Working in `base` has one real risk: `pip install` and conda both manage
+packages and don't know about each other, so a pip install into base can
+overwrite a conda-managed library and leave the install unrepairable. Base is
+what Spyder, Anaconda Navigator and Jupyter all run on, so that breaks
+everything at once and the fix is reinstalling Anaconda.
+
+In a named environment the same accident costs you two minutes:
 
 ```powershell
 conda create -n fintech python=3.12 -y
 conda activate fintech
 pip install -r requirements.txt
+conda env remove -n fintech        # if it ever goes wrong - then recreate
 ```
 
-Your prompt changes from `(base)` to `(fintech)`. That's how you know it worked.
+So: **if you stick to `conda install` in base, base is fine.** The moment you
+find yourself running `pip install` for this course, make an environment first.
 
-> You *can* just work in `base` — it already has everything. But base is shared
-> with every other project on your machine, Spyder included, so breaking it
-> breaks all of them at once. One command to avoid that is worth it.
+You'll also want one eventually when two modules need different versions of the
+same package — one environment can't hold both.
 
-> Don't use `Python: Create Environment` → `Venv` when you have Anaconda.
-> Mixing venv and conda works, but it produces genuinely confusing failures.
-> Conda manages conda.
-
-### 4B — You don't have Anaconda
-
-`Ctrl+Shift+P` → **`Python: Create Environment`** → **`Venv`** → pick your Python
-→ when it asks about dependencies, tick **`requirements.txt`**.
-
-It creates `.venv/`, installs everything, and selects the interpreter for you.
+To use a named env from Spyder as well, Spyder needs a matching kernel in it:
+`conda install -n fintech spyder-kernels -y`, then point Spyder at that
+interpreter in Preferences.
+</details>
 
 <details>
-<summary>Same thing in the terminal</summary>
+<summary>If you don't have Anaconda at all</summary>
 
-```bash
-python -m venv .venv                 # Windows   (python3 on macOS/Linux)
-
-.venv\Scripts\Activate.ps1           # Windows (PowerShell)
-source .venv/bin/activate            # macOS / Linux
-
-pip install -r requirements.txt
-```
+`Ctrl+Shift+P` → **`Python: Create Environment`** → **`Venv`** → pick your Python
+→ tick **`requirements.txt`** when it asks. It creates `.venv/`, installs
+everything, and selects the interpreter for you.
 </details>
 
 ---
@@ -137,19 +134,17 @@ pip install -r requirements.txt
 
 **This is the step that causes the most confusion when skipped.**
 
-`Ctrl+Shift+P` → **`Python: Select Interpreter`** → pick:
-
-- **4A (conda):** the entry labelled `fintech`
-- **4B (venv):** the entry with `('.venv')` in it, usually marked *Recommended*
+`Ctrl+Shift+P` → **`Python: Select Interpreter`** → pick the entry labelled
+**`base`** (or your named env / `.venv` if you made one in step 4).
 
 The bottom-right status bar shows the active one. Check it says what you expect.
 
 The symptom of getting this wrong: `ModuleNotFoundError: No module named 'numpy'`
-on a machine where you just watched pip install numpy. It *is* installed — into a
-*different* Python than the one running your code.
+on a machine where the package is definitely installed. It *is* installed — into
+a *different* Python than the one running your code.
 
-If the terminal was already open, close it and open a new one (the trash-can icon,
-then ``Ctrl+` ``) so it picks up the new environment.
+If the terminal was already open, close it (trash-can icon) and open a new one
+with ``Ctrl+` `` so it picks up the environment.
 
 ---
 
@@ -170,7 +165,7 @@ setting up.
 
 Open `week1/homework_week1.ipynb`. Top right of the notebook, click
 **Select Kernel** → **Python Environments** → the same environment you picked in
-step 5 (`fintech`, or `.venv`).
+step 5 (`base`, or your named env).
 
 If it isn't listed, run `pip install ipykernel` inside the activated environment
 and reopen the notebook.
@@ -185,9 +180,39 @@ Same keys as Jupyter and as Spyder.
 
 ## 8. Claude Code extension
 
-Extensions pane → search **Claude Code** → install → sign in. It reads the file
-you're in and shows edits as inline diffs you accept or reject, instead of you
-copying code back and forth.
+**Prerequisites:** VS Code 1.94.0 or higher, and a paid Claude plan (Pro, Max,
+Team or Enterprise) or a Claude Console account. No API key needed. There is no
+free tier for this — if you're on the free plan, skip this step and paste code
+into claude.ai instead.
+
+You do **not** need to install Node.js or the CLI separately: the extension
+bundles its own copy. (A separate CLI install is only needed if you want to type
+`claude` in the integrated terminal.)
+
+1. Extensions pane (`Ctrl+Shift+X`) → search **Claude Code** → publisher
+   **Anthropic** → **Install**.
+   If it doesn't show up afterwards: Command Palette →
+   **`Developer: Reload Window`**.
+2. Open the panel. The ✱ Spark icon is the marker:
+   - **Editor toolbar**, top-right of the editor — quickest, but only appears
+     when a file is open.
+   - **Activity Bar**, left sidebar — always visible, opens the sessions list.
+   - Command Palette → type **`Claude Code`**.
+3. A sign-in screen appears the first time. Click **Sign in** and finish
+   authorising in the browser.
+
+Worth knowing once you're in:
+
+| | |
+|---|---|
+| Selected text | Claude sees it automatically — no pasting |
+| `Alt+K` | Insert an @-mention of the selection, e.g. `@homework_week1.ipynb#42-51` |
+| `@` | Reference any file or folder by name (fuzzy matches) |
+| `Shift+Enter` | New line without sending |
+| Permission mode | Bottom of the prompt box. **Manual** shows a diff and asks before every edit — worth using while you're learning, so nothing changes without you reading it first |
+
+For coursework, the useful move is selecting a cell you don't understand and
+asking about it directly, rather than describing it.
 
 ---
 
