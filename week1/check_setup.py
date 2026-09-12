@@ -1,21 +1,37 @@
 """
 Environment check. Run this once after setting up VS Code.
 
-    VS Code:  open this file, press the Run button (top right), or
-              F5, or in the terminal:  python week1/check_setup.py
+    VS Code:  open this file and press the Run button (top right), or
+              in the terminal:
+                  python week1/check_setup.py          (Windows)
+                  python3 week1/check_setup.py         (macOS / Linux)
 
 If every line below says OK, your environment is ready for the coursework.
 """
 
+import os
 import sys
 
 print(f"Python {sys.version.split()[0]}")
 print(f"  interpreter: {sys.executable}")
-if ".venv" in sys.executable or "venv" in sys.executable or "conda" in sys.executable:
-    print("  OK  - running inside a virtual environment")
+
+conda_env = os.environ.get("CONDA_DEFAULT_ENV")
+in_venv = sys.prefix != getattr(sys, "base_prefix", sys.prefix)
+
+if conda_env and conda_env != "base":
+    print(f"  OK  - conda environment '{conda_env}'")
+elif in_venv:
+    print("  OK  - virtual environment (venv)")
+elif conda_env == "base":
+    print("  WARNING - this is Anaconda's 'base' environment.")
+    print("            It works, but breaking base breaks every project on this")
+    print("            machine (Spyder included). A dedicated environment is safer:")
+    print("                conda create -n fintech python=3.12 -y")
+    print("                conda activate fintech")
+    print("                pip install -r requirements.txt")
 else:
-    print("  WARNING - this does not look like a virtual environment.")
-    print("            Run 'Python: Select Interpreter' and pick the .venv one.")
+    print("  WARNING - not in a virtual environment.")
+    print("            Run 'Python: Select Interpreter' and pick a project environment.")
 print()
 
 REQUIRED = ["numpy", "pandas", "sklearn", "matplotlib"]

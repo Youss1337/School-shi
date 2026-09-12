@@ -3,8 +3,13 @@
 Do these once. Steps 4 and 5 are the ones that actually matter — nearly every
 "but numpy IS installed" problem comes from skipping them.
 
-On Windows, type `python` where this guide says `python3`, and `py -3` if that
-doesn't work either.
+**Windows users: the command is `python`, not `python3`.** `python3` only exists
+on macOS and Linux. On Windows it hits a Microsoft Store stub that prints
+*"Python was not found; run without arguments to install from the Microsoft
+Store"* — which is misleading, because it says nothing about whether Python is
+actually installed.
+
+Throughout this guide, run `python` on Windows and `python3` on macOS/Linux.
 
 ---
 
@@ -41,43 +46,86 @@ view with column stats.
 
 ---
 
-## 3. Make sure Python itself is installed
+## 3. Which Python do you already have?
 
-Open the built-in terminal with ``Ctrl+` `` and run:
+Open the built-in terminal with ``Ctrl+` ``. **Look at the start of the prompt
+before you type anything.**
 
-```bash
-python3 --version
+If it begins with **`(base)`**, like this:
+
+```
+(base) PS C:\Users\You\Projects\School-shi>
 ```
 
-A version number means you're set. "Command not found" means you need Python —
-get it from <https://www.python.org/downloads/> (tick **"Add Python to PATH"** on
-Windows, it's easy to miss and causes exactly this problem later) or install
-Anaconda.
+then **Anaconda is installed and active**, and you already have Python plus
+numpy, pandas, scikit-learn and matplotlib. Skip to step 4A.
+
+Otherwise, check for Python:
+
+```bash
+python --version        # Windows
+python3 --version       # macOS / Linux
+```
+
+A version number means you're set — go to step 4B. "Command not found" (or the
+Microsoft Store message on Windows) means you need Python: get it from
+<https://www.python.org/downloads/> and, on Windows, **tick "Add Python to
+PATH"** during install. It's easy to miss and causes exactly this problem later.
+
+<details>
+<summary>Optional: silence the Windows <code>python3</code> stub</summary>
+
+Settings → Apps → Advanced app settings → **App execution aliases** → turn off
+`python.exe` and `python3.exe`. Then an unknown `python3` gives you an honest
+"not recognized" instead of a Store advert. Purely cosmetic.
+</details>
 
 ---
 
-## 4. Create a virtual environment
+## 4. Create a project environment
 
-A virtual environment is a private Python install for this project. It's not
-bureaucracy — it's what stops one course's package versions from breaking
-another's, and VS Code is built around the assumption you have one.
+A project environment is a private Python install for this course. It's not
+bureaucracy — it's what stops one project's package versions from breaking
+another's, and it means a bad `pip install` can never take down anything but
+this one folder.
+
+Follow **4A** if you have Anaconda (the `(base)` prompt), **4B** if you don't.
+
+### 4A — You have Anaconda
+
+In the terminal:
+
+```powershell
+conda create -n fintech python=3.12 -y
+conda activate fintech
+pip install -r requirements.txt
+```
+
+Your prompt changes from `(base)` to `(fintech)`. That's how you know it worked.
+
+> You *can* just work in `base` — it already has everything. But base is shared
+> with every other project on your machine, Spyder included, so breaking it
+> breaks all of them at once. One command to avoid that is worth it.
+
+> Don't use `Python: Create Environment` → `Venv` when you have Anaconda.
+> Mixing venv and conda works, but it produces genuinely confusing failures.
+> Conda manages conda.
+
+### 4B — You don't have Anaconda
 
 `Ctrl+Shift+P` → **`Python: Create Environment`** → **`Venv`** → pick your Python
 → when it asks about dependencies, tick **`requirements.txt`**.
 
 It creates `.venv/`, installs everything, and selects the interpreter for you.
-Takes a minute or two.
 
 <details>
-<summary>If you'd rather do it in the terminal</summary>
+<summary>Same thing in the terminal</summary>
 
 ```bash
-python3 -m venv .venv
+python -m venv .venv                 # Windows   (python3 on macOS/Linux)
 
-# macOS / Linux
-source .venv/bin/activate
-# Windows (PowerShell)
-.venv\Scripts\Activate.ps1
+.venv\Scripts\Activate.ps1           # Windows (PowerShell)
+source .venv/bin/activate            # macOS / Linux
 
 pip install -r requirements.txt
 ```
@@ -85,29 +133,34 @@ pip install -r requirements.txt
 
 ---
 
-## 5. Check the interpreter is the venv one
+## 5. Point VS Code at that environment
 
 **This is the step that causes the most confusion when skipped.**
 
-Look at the bottom-right of the VS Code status bar — it shows the active Python.
-It should mention `.venv`. If it doesn't:
+`Ctrl+Shift+P` → **`Python: Select Interpreter`** → pick:
 
-`Ctrl+Shift+P` → **`Python: Select Interpreter`** → pick the entry with
-**`('.venv')`** in it, usually marked *Recommended*.
+- **4A (conda):** the entry labelled `fintech`
+- **4B (venv):** the entry with `('.venv')` in it, usually marked *Recommended*
+
+The bottom-right status bar shows the active one. Check it says what you expect.
 
 The symptom of getting this wrong: `ModuleNotFoundError: No module named 'numpy'`
-on a machine where you just watched pip install numpy. It's installed — into a
+on a machine where you just watched pip install numpy. It *is* installed — into a
 *different* Python than the one running your code.
+
+If the terminal was already open, close it and open a new one (the trash-can icon,
+then ``Ctrl+` ``) so it picks up the new environment.
 
 ---
 
 ## 6. Verify
 
 ```bash
-python3 week1/check_setup.py
+python week1/check_setup.py         # Windows
+python3 week1/check_setup.py        # macOS / Linux
 ```
 
-It checks the interpreter, the four packages, that the homework dataset
+It checks which environment you're in, the four packages, that the homework dataset
 downloads, and that matplotlib can draw. If every line says `OK` you're done
 setting up.
 
@@ -116,7 +169,11 @@ setting up.
 ## 7. Open the notebook and pick the kernel
 
 Open `week1/homework_week1.ipynb`. Top right of the notebook, click
-**Select Kernel** → **Python Environments** → the `.venv` one.
+**Select Kernel** → **Python Environments** → the same environment you picked in
+step 5 (`fintech`, or `.venv`).
+
+If it isn't listed, run `pip install ipykernel` inside the activated environment
+and reopen the notebook.
 
 (The kernel is chosen *per notebook*, separately from step 5. Same idea, second
 place to set it — this catches people out.)
@@ -157,3 +214,13 @@ it means your work isn't only on one laptop.
 
 The `.py` and `.ipynb` versions of the homework are the same content — edit
 whichever you prefer, just don't work in both at once.
+
+---
+
+## A note on your folder path
+
+Avoid `&` and, where you can, spaces in the folders above your project — a path
+like `Projects\ML & AI\School-shi` is legal, and VS Code and conda handle it, but
+`&` is a command separator in most shells and some tools mishandle it. If you hit
+a strange path-related error later, this is a prime suspect. Renaming the folder
+to `ML_and_AI` now is cheaper than debugging it in week 6.
