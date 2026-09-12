@@ -11,6 +11,3 @@ ipykernel
 
 # Converts between .py cell scripts and .ipynb notebooks
 jupytext
-
-# Optional - only if you also want to use Spyder
-# spyder
