@@ -178,45 +178,7 @@ Same keys as Jupyter and as Spyder.
 
 ---
 
-## 8. Claude Code extension
-
-**Prerequisites:** VS Code 1.94.0 or higher, and a paid Claude plan (Pro, Max,
-Team or Enterprise) or a Claude Console account. No API key needed. There is no
-free tier for this — if you're on the free plan, skip this step and paste code
-into claude.ai instead.
-
-You do **not** need to install Node.js or the CLI separately: the extension
-bundles its own copy. (A separate CLI install is only needed if you want to type
-`claude` in the integrated terminal.)
-
-1. Extensions pane (`Ctrl+Shift+X`) → search **Claude Code** → publisher
-   **Anthropic** → **Install**.
-   If it doesn't show up afterwards: Command Palette →
-   **`Developer: Reload Window`**.
-2. Open the panel. The ✱ Spark icon is the marker:
-   - **Editor toolbar**, top-right of the editor — quickest, but only appears
-     when a file is open.
-   - **Activity Bar**, left sidebar — always visible, opens the sessions list.
-   - Command Palette → type **`Claude Code`**.
-3. A sign-in screen appears the first time. Click **Sign in** and finish
-   authorising in the browser.
-
-Worth knowing once you're in:
-
-| | |
-|---|---|
-| Selected text | Claude sees it automatically — no pasting |
-| `Alt+K` | Insert an @-mention of the selection, e.g. `@homework_week1.ipynb#42-51` |
-| `@` | Reference any file or folder by name (fuzzy matches) |
-| `Shift+Enter` | New line without sending |
-| Permission mode | Bottom of the prompt box. **Manual** shows a diff and asks before every edit — worth using while you're learning, so nothing changes without you reading it first |
-
-For coursework, the useful move is selecting a cell you don't understand and
-asking about it directly, rather than describing it.
-
----
-
-## 9. Saving your work back to GitHub
+## 8. Saving your work back to GitHub
 
 Source Control pane (`Ctrl+Shift+G`): type a message, click **Commit**, then
 **Sync Changes**. That's `git add` + `commit` + `push` in one place.
@@ -231,14 +193,9 @@ it means your work isn't only on one laptop.
 | File | What it's for |
 |---|---|
 | `week1/homework_week1.ipynb` | **Start here.** The homework scaffold as a notebook. |
-| `week1/homework_week1.py` | The same scaffold as a cell script, if you prefer scripts. |
-| `week1/lecture_week1.py` | The lecture notebook, converted. Your reference for every pattern. |
+| `week1/lecture_week1.py` | The lecture notebook, converted to a cell script. Your reference for every pattern. |
 | `week1/P1_Regression_problem_Week_1_2026.ipynb` | The original file from the course. |
 | `week1/check_setup.py` | The environment check from step 6. |
-| `week1/README.md` | Spyder-specific notes, and how to convert between `.py` and `.ipynb`. |
-
-The `.py` and `.ipynb` versions of the homework are the same content — edit
-whichever you prefer, just don't work in both at once.
 
 ---
 
