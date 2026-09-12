@@ -5,11 +5,15 @@ This is a SCAFFOLD, not a solution. The plumbing is done (imports, data load,
 train/test split, a metrics helper). Each homework step is marked TODO with a
 pointer to the lecture cell that shows the same pattern.
 
-HOW TO USE THIS FILE IN SPYDER
-    Every "# %%" line starts a new cell. Put the cursor inside a cell and press
-    Ctrl+Enter to run just that cell. Work top to bottom - later cells need
-    variables from earlier ones. Nothing here is a Jupyter-only feature, so it
-    all runs in a plain Spyder console.
+HOW TO USE THIS FILE
+    This is the script version. If you are in VS Code, use homework_week1.ipynb
+    instead - same content, native notebook.
+
+    Every "# %%" line starts a new cell, in both Spyder and VS Code's
+    Interactive Window. Put the cursor inside a cell and press Ctrl+Enter to run
+    just that cell. Work top to bottom - later cells need variables from earlier
+    ones. Nothing here is a Jupyter-only feature, so it all runs in a plain
+    Python console too.
 
     Written answers go in the triple-quoted ANSWER blocks. Keep them in the file:
     the file is your homework submission.
