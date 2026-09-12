@@ -55,7 +55,6 @@ dedicated env — base already ships every package the coursework needs.
 
 ## Working agreement
 
-More than one Claude session works on this repo, all on branch
-`claude/sweet-sagan-bfk90w`. `homework_week1.ipynb` belongs to the student —
-avoid pushing changes to it, since a notebook merge conflict is painful to
-resolve and would land on their answers.
+`homework_week1.ipynb` belongs to the student — avoid pushing changes to it
+without asking, since a notebook merge conflict is painful to resolve and
+would land on their answers.
