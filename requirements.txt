@@ -6,6 +6,9 @@ pandas
 scikit-learn
 matplotlib
 
+# Reading the Week 2 .xlsx dataset
+openpyxl
+
 # Needed for VS Code (and Jupyter) to run .ipynb notebooks
 ipykernel
 
